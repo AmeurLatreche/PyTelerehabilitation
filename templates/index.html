@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+      <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script> -->
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+      <!-- <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+       <script src="/js/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+      <script src="/js/jquery.min.js"></script>
+      <script src="/js/highcharts.js"></script>
+      <script src="/js/highcharts-more.js"></script>
+      <script src="/js/exporting.js"></script> -->
+      <title>reeducation a distance</title>
+   </head>
+   <body>
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-6  ">
+               <h3 class="mt-5">Webcam</h3>
+               <img src="{{ url_for('video_feed') }}" width="80%">
+            </div>
+            <div class="col-lg-6  ">
+       <!--         <h3 class="mt-5">Vidéo pour suive</h3>
+               <img src="{{ url_for('video_feed2') }}" width="80%"> -->
+            </div>
+            <button style="
+               margin-left: 40%;
+               margin-top: 1em;
+               "type="button" id="b1"  >save data
+            </button>
+            <div class="col-lg-12  ">
+               <div class="container-fluid">
+                  <!-- Example row of columns -->
+                  <div class="row">
+                     <div class="container-fluid" id="data-container">
+                     </div>
+                  </div>
+               </div>
+               <script>
+                  $(document).ready(function(){
+
+                      $("#b1").click(function(){
+
+                          $.ajax({
+
+                              method: "GET",
+
+                              url: "/aa",
+
+                              data: 'eee',
+
+                              dataType: "text",
+
+                              success: function(result){
+
+                                  var data=JSON.parse(result);
+
+                                  console.log(result);
+
+                              }
+                          });
+                      });
+
+                  });
+
+               </script>
+               <script>
+                try {
+               var chart;
+function requestLightData() {
+     
+    $.ajax({
+        url: '/data',
+        // timeout: 2*60*60*1000, //2 hours,
+        timeout: 1*1000,
+        success: function(points) {
+            var series = chart.series[0],
+                shift = series.data.length > 40;
+            chart.series[0].addPoint(points[0], true, shift);
+            chart.series[1].addPoint(points[1], true, shift);
+            chart.series[2].addPoint(points[2], true, shift);
+           
+            setTimeout(requestLightData,1000);
+        },
+        cache: false
+    });
+   
+} 
+
+                 
+
+                  //     var chart;
+
+                  //     function requestData()
+                  //     {
+                  //                         // Ajax call to get the Data from Flask
+                  //                         var requests = $.get('/data');
+
+                  //                         var tm = requests.done(function (result)
+                  //                         {
+                  //                             var series = chart.series[0],
+                  //                             shift = series.data.length > 40;
+
+                  //                         // add the point
+                  //                         chart.series[0].addPoint(result[0], true, shift);
+                  //                         var series = chart.series[1],
+                  //                         shift = series.data.length > 40;
+                  //                         // add the point
+                  //                         chart.series[2].addPoint(result[2], true, shift);
+                  //                         var series = chart.series[2],
+                  //                         shift = series.data.length > 40;
+
+                  //                         // add the point
+                  //                         chart.series[1].addPoint(result[1], true, shift);
+                  //                         setTimeout(requestData, 1000);
+                  //                         });
+
+                  //                         }
+
+                                          $(document).ready(function() {
+                                              chart = new Highcharts.Chart({
+                                                  chart: {
+                                                      renderTo: 'data-container',
+                                                      defaultSeriesType: 'spline',
+                                                      events: {
+                                                          load: requestLightData
+                                                      }
+                                                  },
+                                                  title: {
+                                                      text: 'Live data'
+                                                  },
+                                                  credits: {
+                                                      enabled: false
+                                                  },
+                                                  xAxis: {
+                                                      type: 'datetime',
+                                                      tickPixelInterval: 150,
+                                                      maxZoom: 20 * 1000,
+                                                      title: {
+                                                          text: 'le temp',
+                                                          margin: 80
+                                                      }
+
+                                                  },
+                                                  yAxis: {
+                                                      minPadding: 0.2,
+                                                      maxPadding: 0.2,
+                                                      title: {
+                                                          text: 'reeducation a distance',
+                                                          margin: 80
+                                                      }
+                                                  },
+                                                  series: [{
+                                                      name: 'webcam',
+                                                      data: []
+                                                  },{
+                                                      name: 'video',
+                                                      data: []
+                                                  },{
+                                                      name: 'input data',
+                                                      data: []
+                                                  }]
+                                              });
+
+                                          });
+                                           } catch (error) {
+                  console.error(error);
+                  setTimeout(requestLightData, 1000);
+                  }
+                 
+
+               </script>
+
+            </div>
+         </div>
+      </div>
+      <!--    <div class="jumbotron">-->
+      <!--    </div>-->
+      <br>
+      <br>
+   </body>
+</html>
